@@ -1,10 +1,11 @@
 import cv2 as cv
+import mediapipe as mp
 import imutils
 import numpy as np
-import time
 
-def play_drums(x,y):
-    pass
+mp_drawing = mp.solutions.drawing_utils
+mp_hands = mp.solutions.hands
+
 
 img1 = cv.imread("1.png")
 img2 = cv.imread("2.png")
@@ -15,42 +16,40 @@ img6 = cv.imread("6.png")
 img7 = cv.imread("7.png")
 
 images_list = [img1, img2, img3, img4, img5, img6, img7]
+
+
+mp_drawing = mp.solutions.drawing_utils
+mp_hands = mp.solutions.hands
+
 capture = cv.VideoCapture(0)
 
-while True:
-    isTrue, frame = capture.read()
-    frame = imutils.resize(frame, width=1280)
-    frame = cv.flip(frame, 1)    # to make the frame displayed properly
-    frame[0:125, 0:1280] = images_list[0]
+with mp_hands.Hands(min_detection_confidence = 0.8, min_tracking_confidence = 0.5, max_num_hands = 2) as hands:
+    while True:
+        flag, frame = capture.read()
+        frame = imutils.resize(frame, width=1280)
+        frame[0:125, 0:1280] = images_list[0]
 
-    hsv_frame = cv.cvtColor(frame[126:, 0:1280], cv.COLOR_BGR2HSV)
+        image = cv.cvtColor(frame, cv.COLOR_BGR2RGB) # the form of the image that the media pipe accepts
+        image = cv.flip(image, 1)
+        image.flags.writeable = False #open the lock
+        results = hands.process(image)
+        image.flags.writeable = True #close the lock
 
-    low_green = np.array([42, 129, 33])
-    high_green = np.array([80, 255, 255])
-    mask = cv.inRange(hsv_frame, low_green, high_green)
-    contours,_ = cv.findContours(mask, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
-    # print(contours)
+        image = cv.cvtColor(image, cv.COLOR_RGB2BGR) # displaying the image after processing
 
-    x, y = 0, 0
-    f_center, f_radius = 0, 0
+        # print(results)
 
-    try:
-        for i in range(10):
-            f_center, f_radius = cv.minEnclosingCircle(contours[i])
-            x, y = int(f_center[0]), int(f_center[1])
+        if results.multi_hand_landmarks: # if there is a hand in the frame
+            for num, hand in enumerate(results.multi_hand_landmarks):
+                mp_drawing.draw_landmarks(image, hand, mp_hands.HAND_CONNECTIONS,
+                                          mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=2, circle_radius=4),
+                                          mp_drawing.DrawingSpec(color=(250, 44, 250), thickness=2, circle_radius=2),
+                                          )
 
-            if cv.contourArea(contours[i]) > 2100:
-                cv.circle(frame, (x, y), 10, (0, 250, 250), 3)
-                break
-    except:
-        pass
+        cv.imshow('Virtual Painter', image)
 
-    cv.imshow("Mask", mask)
-
-
-    cv.imshow("Virtual Painter",frame)
-    if cv.waitKey(6) & 0xFF == ord("q"):
-        break
+        if cv.waitKey(10) & 0xFF == ord('q'):
+            break
 
 capture.release()
 cv.destroyAllWindows()
