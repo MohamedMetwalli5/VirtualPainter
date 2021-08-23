@@ -91,7 +91,7 @@ with mp_hands.Hands(min_detection_confidence = 0.8, min_tracking_confidence = 0.
                         color = blue
                         image_number = 0
                         brush_thickness = 15
-                if abs(x1-x2) <= 46:
+                if abs(x1-x2) <= 56:
                     mode = "selection mode"
                     print("selection mode")
                     xp, yp = x1, y1
