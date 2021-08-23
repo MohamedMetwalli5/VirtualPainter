@@ -101,7 +101,6 @@ with mp_hands.Hands(min_detection_confidence = 0.8, min_tracking_confidence = 0.
                     if xp == 0 and yp == 0:
                         xp = x1
                         yp = y1
-                    cv.line(image,(xp,yp), (x1,y1), color, brush_thickness)
                     if mode == "painting mode":
                         cv.line(image_canvas,(xp,yp), (x1,y1), color, brush_thickness)
                     xp, yp = x1, y1
