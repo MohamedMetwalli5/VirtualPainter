@@ -2,8 +2,9 @@
 
 # VirtualPainter
 I built a virtual painter using Computer Vision. 
-<br>
+
 The Video :
+<br>
 [![Virtual Drums](https://img.youtube.com/vi/cdJeKnXsDnI/0.jpg)](https://www.youtube.com/watch?v=cdJeKnXsDnI)
 <br>
 • User can write & draw on air smoothly.
