@@ -2,7 +2,7 @@
 
 # VirtualPainter
 I built a virtual painter using Computer Vision. 
-
+ 
 The Video :
 <br>
 [![Virtual Drums](https://img.youtube.com/vi/cdJeKnXsDnI/0.jpg)](https://www.youtube.com/watch?v=cdJeKnXsDnI)
