@@ -11,3 +11,7 @@ The Video :
 <br>
 • It can be used for educational purposes & in many fields.
 <br>
+
+# Author
+**Mohamed Metwalli** - Software Engineer & Technical Writer  
+🌐 [mohamedmetwalli.com](https://www.mohamedmetwalli.com) · [LinkedIn](https://www.linkedin.com/in/mohamed-metwalli5)
